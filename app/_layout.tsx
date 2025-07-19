@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { TamaguiProvider } from 'tamagui';
+import { TamaguiProvider, Theme } from 'tamagui';
 import { SplashScreen, Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
 
-import config from '../tamagui.config';
+import config from '~/tamagui.config';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -28,10 +29,21 @@ export default function RootLayout() {
 
   return (
     <TamaguiProvider config={config}>
+      
+       <Theme name={"light"}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="phone/[id]" options={{presentation:'card'}}/>
+         <Stack.Screen name="auth/login" options={{presentation:'card'}}/>
+          <Stack.Screen name="auth/signup" options={{presentation:'card'}}/>
+        
+         
       </Stack>
+      </Theme>
+      
+     
     </TamaguiProvider>
+    
   );
 }

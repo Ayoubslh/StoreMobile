@@ -10,7 +10,7 @@ export default function NotFoundScreen() {
       <Main>
         <YStack>
           <Title>{"This screen doesn't exist."}</Title>
-          <Link href="/">
+          <Link href="/home">
             <Subtitle>Go to home screen!</Subtitle>
           </Link>
         </YStack>

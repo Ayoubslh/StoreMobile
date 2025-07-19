@@ -95,9 +95,9 @@ const config = createTamagui({
   },
   themes,
   tokens,
-  media: createMedia({
-    xs: { maxWidth: 660 },
-    sm: { maxWidth: 800 },
+  media:{
+    xs: { maxWidth: 250 },
+    sm: { maxWidth: 360},
     md: { maxWidth: 1020 },
     lg: { maxWidth: 1280 },
     xl: { maxWidth: 1420 },
@@ -110,7 +110,7 @@ const config = createTamagui({
     tall: { minHeight: 820 },
     hoverNone: { hover: 'none' },
     pointerCoarse: { pointer: 'coarse' },
-  }),
+  },
 });
 
 type AppConfig = typeof config;
