@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Container, Main, Title } from '~/tamagui.config';
 import { FlatList, Pressable } from 'react-native';
 import { useState } from 'react';
+import { useCartStore } from '~/store/useCartStore';
 
 import P1 from './../../assets/phones/p1.jpeg';
 import Pcard from '../uis/Pcard';
@@ -30,6 +31,7 @@ const categories = [
 
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState<string | null>('1');
+  const [isadded, setAdded] = useState(false);
 
   return (
     <Main bg="$background" f={1}>

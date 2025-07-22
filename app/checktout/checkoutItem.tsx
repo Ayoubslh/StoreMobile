@@ -3,25 +3,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, YStack, XStack, Text, Button, Separator } from "tamagui";
 import { Image } from "react-native";
 import { phones } from "~/assets/Data/Data";
+import { useOrderStore } from "~/store/useOrderStore";
+import { useCartStore } from "~/store/useCartStore";
 
 export default function CheckoutScreen() {
-  const { items } = useLocalSearchParams();
 
- 
-
-  const parsedItems = items ? JSON.parse(items) : [];
-
-  const cartItems = parsedItems
-    .map(({ id, quantity }) => {
-      const product = phones.find((p) => p.id === Number(id));
-      return product ? { ...product, quantity } : null;
-    })
-    .filter(Boolean);
-
-  const total = cartItems.reduce(
-    (sum: number, item: any) => sum + item.price * item.quantity,
-    0
-  );
+ const {id,quantity}= useLocalSearchParams();
+ const item = phones.find((phone) => phone.id === id);
+ console.log(item);
+ const total=item?.price* quantity;
 
   return (
     <>
@@ -34,9 +24,9 @@ export default function CheckoutScreen() {
       </Text>
 
       <YStack gap="$3"  >
-        {cartItems.map((item: any) => (
+        {
           <XStack
-            key={item.id}
+            
             jc="space-between"
             ai="center"
             p="$2"
@@ -44,20 +34,20 @@ export default function CheckoutScreen() {
             backgroundColor="#F4F4F4"
           >
             <Image
-              source={item.image}
+              source={item?.image}
               
               style={{borderRadius:12,width:100,height:100}}
               resizeMode="contain"
             />
             <YStack f={1} ml="$3" >
-              <Text fontWeight="700">{item.name}</Text>
-              <Text color="#666">Qty: {item.quantity}</Text>
+              <Text fontWeight="700">{item?.name}</Text>
+              <Text color="#666">Qty: {quantity}</Text>
             </YStack>
             <Text fontWeight="700">
-              ${(item.price * item.quantity).toFixed(2)}
+              ${(total).toFixed(2)}
             </Text>
           </XStack>
-        ))}
+}
       </YStack>
 
       <XStack jc="space-between" mt="$4">
@@ -128,7 +118,16 @@ export default function CheckoutScreen() {
         width={"90%"}
         borderRadius="$6"
         pressStyle={{ opacity: 0.85 }}
-        onPress={() => alert("Order confirmed")}
+        onPress={() => useOrderStore.getState().addOrder(
+          {
+            id: new Date().getTime().toString(),
+            items: [item],
+            totalPrice: total.toFixed(2),
+            orderDate: new Date().toISOString(),
+            status: "pending",
+            
+          }
+        )}
       >
         Confirm Order
       </Button>

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { TamaguiProvider, Theme } from 'tamagui';
 import { SplashScreen, Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useState } from 'react';
 
 import config from '~/tamagui.config';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -19,6 +21,8 @@ export default function RootLayout() {
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
   });
 
+   const [queryClient] = useState(() => new QueryClient())
+
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
@@ -28,6 +32,7 @@ export default function RootLayout() {
   if (!loaded) return null;
 
   return (
+     <QueryClientProvider client={queryClient}>
     <TamaguiProvider config={config}>
       
        <Theme name={"light"}>
@@ -44,6 +49,7 @@ export default function RootLayout() {
       
      
     </TamaguiProvider>
+    </QueryClientProvider>
     
   );
 }

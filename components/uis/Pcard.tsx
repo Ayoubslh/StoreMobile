@@ -1,22 +1,18 @@
 import { Ionicons } from "@expo/vector-icons"
 import { Card, CardHeader ,YStack,Image,Text ,CardFooter, XStack, Section, ButtonIcon, Button} from "tamagui"
 import { Link, useRouter } from 'expo-router'
-type phone={
-id:number,
-name:string
-image:string
-price:number
- brand:string
-}
-
-
-// inside Pcard component
+import { Item } from "~/types/Item"
+import { useCartStore } from "~/store/useCartStore"
+import { useState } from "react"
 
 
 
 
 
-const Pcard = ({item}:{item :phone}) => {
+
+
+const Pcard = ({item}:{item :Item}) => {
+  const [isAdded, setAdded] = useState(false);
  
   return (
   <Link href={`/phone/${item.id}`} asChild>
@@ -45,7 +41,7 @@ const Pcard = ({item}:{item :phone}) => {
             ${item.price}
           </Text>
        <Button
-  icon={<Ionicons name="add" size={18} color="white" />}
+  icon={ isAdded?<Ionicons name="checkmark-circle-outline" size={24} color="white" />:<Ionicons name="add" size={18} color="white" />}
   width={40}
   height={40}
   padding={0}
@@ -54,6 +50,19 @@ const Pcard = ({item}:{item :phone}) => {
   justifyContent="center"
   alignItems="center"
   pressStyle={{ opacity: 0.8 }}
+  onPress={() => {useCartStore.getState().addItem({
+    id: item.id.toString(),
+    image: item.image,
+    quantity: 1,
+    name: item.name,
+    price: item.price,
+    brand: item.brand,
+    }
+  )
+  setAdded(true);
+}
+
+  }
 />
 
           </XStack>

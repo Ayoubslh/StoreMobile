@@ -11,25 +11,29 @@ import {
   Button,
 } from "tamagui"
 import { Link } from "expo-router"
+import { useState, useEffect } from "react"
+import { Alert } from "react-native"
+import { useCartStore } from "~/store/useCartStore"
+import { useFavouriteStore } from "~/store/useFavouritesStore"
 
-const favorites = [
-  {
-    id: 1,
-    name: "iPhone 15 Pro Max",
-    brand: "Apple",
-    image: require("./../../assets/phones/iphone15promax.jpeg"),
-    price: 255,
-  },
-  {
-    id: 2,
-    name: "Samsung Galaxy S24 Ultra",
-    brand: "Samsung",
-    image: require("./../../assets/phones/sgu24.jpeg"),
-    price: 240,
-  },
-]
 
 export default function FavoritesScreen() {
+  const favorites = useFavouriteStore((state) => state.items);
+  const [favourite, setFavourite] = useState(() =>
+    favorites.map((item) => ({ ...item, selected: true }))
+  );
+  useEffect(() => {
+    setFavourite((prev) => {
+      const updated = favorites.map((item) => {
+        const prevItem = prev.find((p) => p.id === item.id);
+        return {
+          ...item,
+          selected: prevItem ? prevItem.selected : true,
+        };
+      });
+      return updated;
+    });
+  }, [favorites]);
   return (
     <ScrollView p="$4">
       <YStack gap="$4">
@@ -73,6 +77,14 @@ export default function FavoritesScreen() {
                       alignItems="center"
                       pressStyle={{ opacity: 0.8 }}
                       color={"white"}
+                      onPress={() => useCartStore.getState().addItem({
+                        id: item.id.toString(),
+                        image: item.image,
+                        quantity: 1,
+                        name: item.name,
+                        price: item.price,
+                        brand: item.brand,
+                      })}
                       
                     />
                     <Button
@@ -85,6 +97,10 @@ export default function FavoritesScreen() {
                       justifyContent="center"
                       alignItems="center"
                       pressStyle={{ opacity: 0.8 }}
+                      onPress={() => {
+                        useFavouriteStore.getState().toggleFavourite(item);
+                        Alert.alert("Removed from favorites");
+                      }}
                     />
                     </XStack>
                   </XStack>

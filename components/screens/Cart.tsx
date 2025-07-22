@@ -11,36 +11,45 @@ import {
   ScrollView,
   View,
 } from "tamagui";
-import { useState } from "react";
-import { Dimensions } from "react-native";
+import { useState,useEffect } from "react";
+import { Alert, Dimensions } from "react-native";
 import { Link,router} from 'expo-router'
+import { useCartStore } from "~/store/useCartStore";
 
-const initialCartItems = [
-  {
-    id: 1,
-    name: "iPhone 15 Pro Max",
-    brand: "Apple",
-    image: require("./../../assets/phones/iphone15promax.jpeg"),
-    price: 255,
-    quantity: 1,
-    selected: true,
-  },
-  {
-    id: 2,
-    name: "Samsung Galaxy S24 Ultra",
-    brand: "Samsung",
-    image: require("./../../assets/phones/sgu24.jpeg"),
-    price: 240,
-    quantity: 2,
-    selected: true,
-  },
-];
+
 
 
 export default function CartScreen() {
-  const [cart, setCart] = useState(initialCartItems);
+ const initialCartItems = useCartStore((state) => state.items);
+ console.log(initialCartItems);
+const [cart, setCart] = useState(() =>
+  initialCartItems.map((item) => ({ ...item, selected: true }))
+);
+
+
+
+useEffect(() => {
+  setCart((prev) => {
+    const updated =  initialCartItems.map((item) => {
+      const prevItem = prev.find((p) => p.id === item.id);
+      return {
+        ...item,
+        selected: prevItem ? prevItem.selected : true,
+      };
+    });
+    return updated;
+  });
+}, [ initialCartItems]);
+
+
 
   const handleQuantityChange = (id: number, delta: number) => {
+    if (delta < 0 && cart.find(item => item.id === id)?.quantity <= 1) {
+       Alert.alert("Remove Item", "Do you want to remove this item from the cart?", [
+        { text: "Cancel", style: "cancel" },
+        { text: "Remove", onPress: () => {useCartStore.getState().removeItem(id)} }
+      ]);
+    }
     setCart((prev) =>
       prev.map((item) =>
         item.id === id
@@ -136,6 +145,7 @@ export default function CartScreen() {
               size="$2"
               circular
               bg="#EEE"
+              
             >
               <Ionicons name="remove" size={16} />
             </Button>
@@ -187,7 +197,7 @@ export default function CartScreen() {
     .map(({ id, quantity }) => ({ id, quantity }));
 
   router.push({
-    pathname: "/checktout/checkout",
+    pathname: "/checktout/checkoutCart",
     params: {
       items: JSON.stringify(selectedItems),
     },

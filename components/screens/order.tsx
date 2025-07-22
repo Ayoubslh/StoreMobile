@@ -11,41 +11,53 @@ import {
   Button
 } from "tamagui";
 import { phones } from "~/assets/Data/Data";
+import { useOrderStore } from "~/store/useOrderStore";
+import { useState,useEffect } from "react";
 
-const orders = [
-  {
-    id: 101,
-    date: "2025-07-18",
-    items: [
-      { id: 1, quantity: 1 },
-      { id: 2, quantity: 2 },
-    ],
-    status: "delivered",
-  },
-  {
-    id: 102,
-    date: "2025-07-15",
-    items: [{ id: 3, quantity: 1 }],
-    status: "processing",
-  },
-];
-
-
-
-const statusColor = {
-  delivered: "#4CAF50",
-  processing: "#FFC107",
-  cancelled: "#F44336",
-};
 
 
 const statusIcon = {
-  delivered: "checkmark-done",
-  processing: "time-outline",
+  completed: "checkmark-done",
+  pending: "time-outline",
   cancelled: "close-circle",
 };
 
 export default function OrderScreen() {
+  const orders = useOrderStore((state) => state.orders);
+  const[order, setOrders] = useState(()=>
+    orders.map((order) => ({
+      ...order,
+      items: order.items.map((item) => ({
+        ...item,
+        selected: true,
+      })),
+    })),
+  );
+  const [statusColor, setStatusColor] = useState({
+    completed: "#28a745",
+    pending: "#ffc107",
+    cancelled: "#dc3545",
+  });
+
+  useEffect(() => {
+    setStatusColor({
+      completed: "#28a745",
+      pending: "#ffc107",
+      cancelled: "#dc3545",
+    });
+    setOrders((prev) => {
+      const updated = orders.map((order) => {
+        const prevOrder = prev.find((p) => p.id === order.id);
+        return {
+          ...order,
+          items: prevOrder ? prevOrder.items : order.items,
+        };
+      });
+      return updated;
+    });
+      
+  }, []);
+
   
   return (
     <YStack f={1} bg="#fff">

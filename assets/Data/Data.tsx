@@ -1,6 +1,6 @@
 export const phones = [
   {
-  id: 1,
+  id: "1",
   name: "iPhone 15 Pro Max",
   brand: "Apple",
   image: require("./../../assets/phones/iphone15promax.jpeg"),
@@ -57,7 +57,7 @@ export const phones = [
 }
 ,
  {
-  id: 2,
+  id: "2",
   name: "Samsung Galaxy S24 Ultra",
   brand: "Samsung",
   image: require("./../../assets/phones/sgu24.jpeg"),
@@ -114,7 +114,7 @@ export const phones = [
 }
 ,
  {
-  id: 3,
+  id: "3",
   name: "Google Pixel 8 Pro",
   brand: "Google",
   image: require("./../../assets/phones/pixel.jpeg"),
@@ -171,7 +171,7 @@ export const phones = [
 }
 ,
  {
-  id: 4,
+  id: "4",
   name: "OnePlus 12",
   brand: "OnePlus",
   image: require("./../../assets/phones/oneplus.jpeg"),
@@ -228,7 +228,7 @@ export const phones = [
 }
 ,
  {
-  id: 5,
+  id: "5",
   name: "Xiaomi 14 Ultra",
   brand: "Xiaomi",
   image: require("./../../assets/phones/xiaomi.jpeg"),
@@ -285,7 +285,7 @@ export const phones = [
 }
 ,
  {
-  id: 6,
+  id: "6",
   name: "Sony Xperia 1 V",
   brand: "Sony",
   image: require("./../../assets/phones/sony.jpeg"),
@@ -342,7 +342,7 @@ export const phones = [
 }
 ,
  {
-  id: 7,
+  id: "7",
   name: "Motorola Edge+ (2023)",
   brand: "Motorola",
   image: require("./../../assets/phones/motorola.jpeg"),
@@ -399,7 +399,7 @@ export const phones = [
 }
 ,
 {
-  id: 8,
+  id: "8",
   name: "Asus ROG Phone 8",
   brand: "Asus",
   image: require("./../../assets/phones/asus.jpeg"),
@@ -456,7 +456,7 @@ export const phones = [
 }
 ,
  {
-  id: 9,
+  id: "9",
   name: "Realme GT 6",
   brand: "Oppo",
   image: require("./../../assets/phones/realme.jpeg"),
@@ -513,7 +513,7 @@ export const phones = [
 }
 ,
  {
-  id: 10,
+  id: "10",
   name: "Huawei P60 Pro",
   brand: "Huawei",
   image: require("./../../assets/phones/huawei.jpeg"),

@@ -1,4 +1,4 @@
-interface PhoneDetails {
+export interface PhoneDetails {
   id: number;
   name: string;
   brand: string;
@@ -48,6 +48,8 @@ interface MainCamera {
   triple: string;
   features: string;
   video: string;
+  quad: string;
+  dual: string;
 }
 
 interface Memory {
