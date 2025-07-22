@@ -25,7 +25,7 @@ export default function FavoritesScreen() {
   useEffect(() => {
     setFavourite((prev) => {
       const updated = favorites.map((item) => {
-        const prevItem = prev.find((p) => p.id === item.id);
+        const prevItem = prev.find((p) => p._id === item._id);
         return {
           ...item,
           selected: prevItem ? prevItem.selected : true,
@@ -38,7 +38,7 @@ export default function FavoritesScreen() {
     <ScrollView p="$4">
       <YStack gap="$4">
         {favorites.map((item) => (
-          <Link key={item.id} href={`/phone/${item.id}`} asChild>
+          <Link key={item._id} href={`/phone/${item._id}`} asChild>
             <Card elevate size="$4" width="100%" height={120} p="$3" borderRadius="$8">
               <XStack f={1} space="$3">
                 <Image
@@ -78,7 +78,7 @@ export default function FavoritesScreen() {
                       pressStyle={{ opacity: 0.8 }}
                       color={"white"}
                       onPress={() => useCartStore.getState().addItem({
-                        id: item.id.toString(),
+                        id: item._id.toString(),
                         image: item.image,
                         quantity: 1,
                         name: item.name,

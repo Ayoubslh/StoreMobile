@@ -1,9 +1,12 @@
 import { Ionicons } from "@expo/vector-icons"
-import { Card, CardHeader ,YStack,Image,Text ,CardFooter, XStack, Section, ButtonIcon, Button} from "tamagui"
+import { Card, CardHeader ,YStack,Text ,CardFooter, XStack, Section, ButtonIcon, Button} from "tamagui"
 import { Link, useRouter } from 'expo-router'
 import { Item } from "~/types/Item"
 import { useCartStore } from "~/store/useCartStore"
 import { useState } from "react"
+import { Image } from "react-native"
+import { PhoneDetails } from "~/types/phone"
+import { set } from "zod"
 
 
 
@@ -11,19 +14,18 @@ import { useState } from "react"
 
 
 
-const Pcard = ({item}:{item :Item}) => {
+const Pcard = ({item}:{item :PhoneDetails}) => {
   const [isAdded, setAdded] = useState(false);
  
   return (
-  <Link href={`/phone/${item.id}`} asChild>
+  <Link href={`/phone/${item._id}`} asChild>
      <Card elevate size="$4" width={160} height={230} p="$2" borderRadius="$8" mb="$4"   >
       <YStack f={1} >
         <CardHeader padding={0}>
           <Image
             source={ {uri:item.image}}
-            width="100%"
-            height={120}
-            borderRadius="$4"
+            resizeMode="contain"
+            style={{ width: '100%', height: 120, borderRadius: 8 }}
           
           />
         </CardHeader>
@@ -51,7 +53,7 @@ const Pcard = ({item}:{item :Item}) => {
   alignItems="center"
   pressStyle={{ opacity: 0.8 }}
   onPress={() => {useCartStore.getState().addItem({
-    id: item.id.toString(),
+    id: item._id.toString(),
     image: item.image,
     quantity: 1,
     name: item.name,
@@ -60,6 +62,10 @@ const Pcard = ({item}:{item :Item}) => {
     }
   )
   setAdded(true);
+  setTimeout(() => {
+  setAdded(false);
+  }, 500);
+  
 }
 
   }

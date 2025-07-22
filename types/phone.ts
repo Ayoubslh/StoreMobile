@@ -1,11 +1,14 @@
 export interface PhoneDetails {
-  id: number;
+  _id: string;
   name: string;
   brand: string;
   image: string;
   price: number;
   description: string;
   specs: Specs;
+  averageRatings: number;
+  ratingQuantity: number;
+
 }
 
 interface Specs {

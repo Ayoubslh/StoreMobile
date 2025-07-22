@@ -1,9 +1,8 @@
 export const phones = [
   {
-  id: "1",
   name: "iPhone 15 Pro Max",
   brand: "Apple",
-  image: require("./../../assets/phones/iphone15promax.jpeg"),
+  image: "./../../assets/phones/iphone15promax.jpeg",
   price: 255,
   description: "Apple's most advanced iPhone with a powerful A17 Pro chip and titanium design.",
   specs: {
@@ -60,7 +59,7 @@ export const phones = [
   id: "2",
   name: "Samsung Galaxy S24 Ultra",
   brand: "Samsung",
-  image: require("./../../assets/phones/sgu24.jpeg"),
+  image: "./../../assets/phones/sgu24.jpeg",
   price: 255,
   description: "Samsung’s flagship with S-Pen support, Snapdragon 8 Gen 3, and incredible zoom camera.",
   specs: {
@@ -117,7 +116,7 @@ export const phones = [
   id: "3",
   name: "Google Pixel 8 Pro",
   brand: "Google",
-  image: require("./../../assets/phones/pixel.jpeg"),
+  image: "./../../assets/phones/pixel.jpeg",
   price: 255,
   description: "The smartest Pixel ever with Google Tensor G3 and powerful AI photography features.",
   specs: {
@@ -174,7 +173,7 @@ export const phones = [
   id: "4",
   name: "OnePlus 12",
   brand: "OnePlus",
-  image: require("./../../assets/phones/oneplus.jpeg"),
+  image: "./../../assets/phones/oneplus.jpeg",
   price: 255,
   description: "Flagship performance with Snapdragon 8 Gen 3, massive battery, and bright AMOLED display.",
   specs: {
@@ -231,7 +230,7 @@ export const phones = [
   id: "5",
   name: "Xiaomi 14 Ultra",
   brand: "Xiaomi",
-  image: require("./../../assets/phones/xiaomi.jpeg"),
+  image: "./../../assets/phones/xiaomi.jpeg",
   price: 255,
   description: "A Leica-powered camera beast with Snapdragon 8 Gen 3 and premium titanium build.",
   specs: {

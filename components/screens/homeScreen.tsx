@@ -11,16 +11,17 @@ import {
   XStack,
   YStack,
   SizableText,
+  Spinner,
 } from 'tamagui';
 import { Ionicons } from '@expo/vector-icons';
 import { Container, Main, Title } from '~/tamagui.config';
 import { FlatList, Pressable } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCartStore } from '~/store/useCartStore';
 
 import P1 from './../../assets/phones/p1.jpeg';
 import Pcard from '../uis/Pcard';
-import { phones } from '~/assets/Data/Data';
+import { useGetAllItems } from '~/apis/items/getAllItems';
 const categories = [
   { id: '1', name: 'Phones' },
   { id: '2', name: 'Earphones' },
@@ -29,9 +30,13 @@ const categories = [
   { id: '5', name: 'Accessories' },
 ];
 
+
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState<string | null>('1');
-  const [isadded, setAdded] = useState(false);
+
+ const { data: phones, isLoading, error } = useGetAllItems();
+ console.log(phones);
+ 
 
   return (
     <Main bg="$background" f={1}>
@@ -132,13 +137,13 @@ export default function HomeScreen() {
             }}
           />
         </YStack>
-        <YStack mt="$4" p="$2" flexWrap="wrap" justifyContent="space-between" bg="$background">
-          <XStack flexWrap="wrap" justifyContent="space-around">
-            {phones.map((item) => (
-              <Pcard item={item} key={item.id} />
+       {isLoading?<Spinner></Spinner>: <YStack mt="$4" p="$2" flexWrap="wrap" justifyContent="space-between" bg="$background">
+          <XStack flexWrap="wrap" justifyContent="space-around" >
+            {phones?.map((item) => (
+              <Pcard key={item._id}  item={item}  />
             ))}
           </XStack>
-        </YStack>
+        </YStack>}
       </ScrollView>
     </Main>
   );
