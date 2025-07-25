@@ -1,23 +1,57 @@
 import { useQuery } from "@tanstack/react-query";
 import { PhoneDetails } from "~/types/phone";
 
+export type FiltersType = {
+  brand?: string;
+  model?: string;
+  name?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minStorage?: number;
+  maxStorage?: number;
+  minRam?: number;
+  maxRam?: number;
+};
 
-const fetchAllItems = async () => {
-  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/items`);
+const fetchAllItems = async (filters: FiltersType) => {
+  const params = new URLSearchParams();
+
+  // Basic filters
+  if (filters.brand) params.append("brand", filters.brand);
+  if (filters.model) params.append("model", filters.model);
+  if (filters.name) params.append("name", filters.name);
+
+  // Range filters
+  if (filters.minPrice !== undefined) params.append("price[gte]", filters.minPrice.toString());
+  if (filters.maxPrice !== undefined) params.append("price[lte]", filters.maxPrice.toString());
+
+
+  console.log("Fetching items with filters:", params.toString());
+
+
+
+
+
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/items?${params.toString()}`, {
+    method: "GET",
+  });
+
   if (!response.ok) {
     throw new Error("Failed to fetch items");
   }
-  
+
   const json = await response.json();
   return json.data.items;
 };
 
-export const useGetAllItems = () => {
+export const useGetAllItems = (filters: FiltersType) => {
   return useQuery<PhoneDetails[], Error>({
-    queryKey: ["items"],
-    queryFn: fetchAllItems,
-    staleTime: 1000 * 60 * 5, 
+    queryKey: ["items", filters], 
+    queryFn: () => fetchAllItems(filters),
+    staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: 1, 
   });
 };

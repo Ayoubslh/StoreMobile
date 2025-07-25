@@ -12,12 +12,17 @@ import {
   YStack,
   SizableText,
   Spinner,
+   AnimatePresence,
+   Button,
+   Slider 
 } from 'tamagui';
 import { Ionicons } from '@expo/vector-icons';
 import { Container, Main, Title } from '~/tamagui.config';
 import { FlatList, Pressable } from 'react-native';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useCartStore } from '~/store/useCartStore';
+
+
 
 import P1 from './../../assets/phones/p1.jpeg';
 import Pcard from '../uis/Pcard';
@@ -33,10 +38,23 @@ const categories = [
 
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState<string | null>('1');
+  const [showFilters, setShowFilters] = useState(false)
+   // local state for inputs
 
- const { data: phones, isLoading, error } = useGetAllItems();
- console.log(phones);
+
  
+
+  const [filters, setFilters] = useState({
+    brand: '',
+    model: '',
+    name: '',
+    minPrice: undefined,
+    maxPrice: undefined,
+  });
+ const { data: phones,isLoading ,error } = useGetAllItems(filters);
+ const [tempFilters, setTempFilters] = useState(filters);
+
+
 
   return (
     <Main bg="$background" f={1}>
@@ -63,21 +81,26 @@ export default function HomeScreen() {
                 color="white"
                 borderRadius="$8"
                 $sm={{ size: '$4' }}
+                onChangeText={(text) => setFilters({ ...filters, name: text })}
+                value={filters.name}
               />
             </XStack>
 
-            <Section
-              bg="#C67C4E"
-              borderRadius={16}
-              h="$6"
-              w="$6"
-              ml="$4"
-              ai="center"
-              jc="center"
-              p="$2"
-              $sm={{ h: '$4', w: '$4', ml: '$2', p: '$a' }}>
-              <Ionicons name="options" size={24} color="#fff" />
-            </Section>
+           <Section
+  bg="#C67C4E"
+  borderRadius={16}
+  h="$6"
+  w="$6"
+  ml="$4"
+  ai="center"
+  jc="center"
+  p="$2"
+  onPress={() => setShowFilters((prev) => !prev)}  // ✅ Add this line
+  $sm={{ h: '$4', w: '$4', ml: '$2', p: '$a' }}>
+  <Ionicons name="options" size={24} color="#fff" />
+</Section>
+
+
           </XStack>
 
           <YStack
@@ -107,7 +130,83 @@ export default function HomeScreen() {
           </YStack>
         </YStack>
 
-        <YStack p="$4">
+        
+       <YStack p="$4" mt="$15" $sm={{ mt: '$-8' }}>
+  {showFilters && (
+    <YStack
+      key="filters"
+      space="$4"
+      mt="$4"
+      mb="$4"
+      p="$4"
+      borderRadius="$4"
+      backgroundColor="#f0f0f0"
+      enterStyle={{ opacity: 0, y: -10 }}
+      exitStyle={{ opacity: 0, y: -10 }}
+      animation="quick"
+    >
+      {/* Brand Filter */}
+      <Input
+        placeholder="Brand"
+        value={tempFilters.brand}
+        onChangeText={(text) => setTempFilters({ ...tempFilters, brand: text })}
+      />
+
+      {/* Price Filter */}
+      <YStack>
+        <XStack jc="space-between" mb="$2">
+          <Text>Min Price: {tempFilters.minPrice || 0} DZD</Text>
+          <Text>Max Price: {tempFilters.maxPrice || 1000} DZD</Text>
+        </XStack>
+        <Slider
+          size="$1"
+          width="100%"
+          max={1000}
+          step={10}
+          defaultValue={[tempFilters.minPrice || 0, tempFilters.maxPrice || 1000]}
+          onValueChange={(value) => setTempFilters({ ...tempFilters, minPrice: value[0], maxPrice: value[1] })}
+        >
+          <Slider.Track>
+            <Slider.TrackActive />
+          </Slider.Track>
+          <Slider.Thumb circular index={0} />
+          <Slider.Thumb circular index={1} />
+        </Slider>
+      </YStack>
+
+      {/* Rating Filter */}
+      <YStack>
+        <XStack jc="space-between" mb="$2">
+          <Text>Min Rating: {tempFilters.rating?.[0] || 0}</Text>
+          <Text>Max Rating: {tempFilters.rating?.[1] || 5}</Text>
+        </XStack>
+        <Slider
+          size="$1"
+          width="100%"
+          max={5}
+          step={0.1}
+          defaultValue={[tempFilters.rating?.[0] || 0, tempFilters.rating?.[1] || 5]}
+          onValueChange={(value) => setTempFilters({ ...tempFilters, rating: value })}
+        >
+          <Slider.Track>
+            <Slider.TrackActive />
+          </Slider.Track>
+          <Slider.Thumb circular index={0} />
+          <Slider.Thumb circular index={1} />
+        </Slider>
+      </YStack>
+      <Button
+  onPress={() => setFilters(tempFilters)}
+  mt="$4"
+  backgroundColor="#C67C4E"
+>
+  Apply Filters
+</Button>
+
+    </YStack>
+  )}
+
+        
           <FlatList
             data={categories}
             horizontal
@@ -120,7 +219,7 @@ export default function HomeScreen() {
                 <Pressable onPress={() => setActiveCategory(item.id)}>
                   <XStack
                     padding="$2"
-                    mt="$15"
+                   
                     $sm={{ mt: '$14' }}
                     borderRadius="$4"
                     backgroundColor={isActive ? '#C67C4E' : '#E3E3E3'}
@@ -137,6 +236,10 @@ export default function HomeScreen() {
             }}
           />
         </YStack>
+        <AnimatePresence>
+  
+</AnimatePresence>
+
        {isLoading?<Spinner></Spinner>: <YStack mt="$4" p="$2" flexWrap="wrap" justifyContent="space-between" bg="$background">
           <XStack flexWrap="wrap" justifyContent="space-around" >
             {phones?.map((item) => (
