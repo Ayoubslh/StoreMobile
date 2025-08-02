@@ -1,14 +1,22 @@
-export interface PhoneDetails {
+export interface Product {
+  status: string;
+  data: Data;
+}
+
+interface Data {
+  specs: Specs;
   _id: string;
   name: string;
   brand: string;
   image: string;
   price: number;
   description: string;
-  specs: Specs;
+  category: string;
+  stock: number;
   averageRatings: number;
   ratingQuantity: number;
-
+  createdAt: string;
+  __v: number;
 }
 
 interface Specs {
@@ -16,8 +24,6 @@ interface Specs {
   display: Display;
   platform: Platform;
   memory: Memory;
-  mainCamera: MainCamera;
-  selfieCamera: SelfieCamera;
   battery: Battery;
   features: Features;
   connectivity: Connectivity;
@@ -27,7 +33,6 @@ interface Connectivity {
   wlan: string;
   bluetooth: string;
   gps: string;
-  nfc: string;
   usb: string;
 }
 
@@ -39,20 +44,6 @@ interface Features {
 interface Battery {
   type: string;
   charging: string;
-}
-
-interface SelfieCamera {
-  single: string;
-  features: string;
-  video: string;
-}
-
-interface MainCamera {
-  triple: string;
-  features: string;
-  video: string;
-  quad: string;
-  dual: string;
 }
 
 interface Memory {
@@ -77,5 +68,4 @@ interface Body {
   dimensions: string;
   weight: string;
   build: string;
-  sim: string;
 }

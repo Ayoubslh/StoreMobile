@@ -19,14 +19,7 @@ export default function LoginScreen() {
   const loginMutation = useLogin();
 
   const onSubmit = (data: LoginFormData) => {
-    loginMutation.mutate(data, {
-      onSuccess: (user) => {
-        router.replace('/(tabs)/home');
-      },
-      onError: (error) => {
-        console.error(error);
-      }
-    });
+    loginMutation.mutate(data)
   };
 
   const continueAsGuest = () => {

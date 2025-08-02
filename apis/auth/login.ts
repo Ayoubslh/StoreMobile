@@ -1,12 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import { UserType } from '~/types/UserType';
-
+import { useToast } from '~/hooks/useToaste';
+import { use } from 'react';
+import { router } from 'expo-router';
 
 
 type LoginInput = {
   email: string;
   password: string;
 };
+
 
 const Login=async ({ email, password }: LoginInput) => {
     const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/login`, {
@@ -26,13 +29,17 @@ const Login=async ({ email, password }: LoginInput) => {
 }
 
 export const useLogin = () => {
+  const { onError, onSuccess } = useToast();
   return useMutation<UserType, Error, LoginInput>({
     mutationFn:Login,
     onSuccess: (data) => {
-    
-      console.log('Login successful:', data);
+
+      onSuccess('Login successful', 'Welcome back!');
+      router.replace('/(tabs)/home')
+      
     },
     onError: (error) => {
+      onError('Login failed', error.message);
       console.error('Login error:', error);
     }
 

@@ -1,4 +1,4 @@
-import { YStack, Input, Text, Button, Label, ScrollView, Separator } from 'tamagui'
+import { YStack, Input, Text, Button, Label, ScrollView, Separator, Spinner } from 'tamagui'
 import { useForm, Controller } from 'react-hook-form'
 import { Link, Stack, router } from 'expo-router'
 import { useSignup } from '~/apis/auth/signup'
@@ -21,7 +21,7 @@ export default function SignUpScreen() {
     signupMutation.mutate(data, {
       onSuccess: (user:any) => {
         console.log('SignUp successful:', user)
-        router.replace('/(tabs)/home')
+        
       },
       onError: (error:any) => {
         console.error('SignUp error:', error)
@@ -111,7 +111,7 @@ export default function SignUpScreen() {
             color="white"
             onPress={handleSubmit(onSubmit)}
           >
-            Sign Up
+            {signupMutation.isPending ? <Spinner color="white" /> : 'Sign Up'}
           </Button>
 
           <Separator borderColor="#E3E3E3" />

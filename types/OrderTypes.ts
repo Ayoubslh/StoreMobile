@@ -1,9 +1,9 @@
-import { Item } from '~/types/Item';
+import { Product } from "./phone";
 
 export type order={
     id: string;
-    
-    items: Item[];
+
+    items: Product[];
     totalPrice: number;
     orderDate: string;
     

@@ -4,9 +4,10 @@ import { SplashScreen, Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react';
+import Toast from 'react-native-toast-message';
 
 import config from '~/tamagui.config';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -35,6 +36,7 @@ export default function RootLayout() {
      <QueryClientProvider client={queryClient}>
     <TamaguiProvider config={config}>
       
+       
        <Theme name={"light"}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -45,8 +47,8 @@ export default function RootLayout() {
         
          
       </Stack>
+      <Toast />
       </Theme>
-      
      
     </TamaguiProvider>
     </QueryClientProvider>

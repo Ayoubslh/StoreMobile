@@ -1,8 +1,8 @@
 import {create} from 'zustand';
-import { PhoneDetails } from './phone';
+import { Product} from './phone';
 
 export type FavouriteState={
-    items: PhoneDetails[];
-    toggleFavourite: (item:PhoneDetails) => void;
+    items: Product[];
+    toggleFavourite: (item:Product) => void;
     isFavourite: (itemId: string) => boolean;
 }

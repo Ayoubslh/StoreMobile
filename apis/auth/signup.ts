@@ -1,5 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
+import { router } from '~/.expo/types/router';
 import { UserType } from '~/types/UserType';
+import { useToast } from '~/hooks/useToaste';
 
 
 type SignupInput ={
@@ -28,14 +30,17 @@ const Signup=async (signupdata: SignupInput) => {
 }
 
 export const useSignup = () => {
+  const { onError, onSuccess } = useToast();
   return useMutation<UserType, Error, SignupInput>({
     mutationFn:Signup,
     onSuccess: (data) => {
-    
-      console.log('Login successful:', data);
+      onSuccess('SignUp successful', 'Welcome aboard!');
+      router.replace('/(tabs)/home');
+      
     },
     onError: (error) => {
-      console.error('Login error:', error);
+      onError('SignUp failed', error.message);
+      console.error('SignUp  error:', error);
     }
 
    })

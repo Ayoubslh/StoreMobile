@@ -1,19 +1,21 @@
-import { View, Text, Button, YStack, XStack, ScrollView, Separator } from 'tamagui';
+import {  Text, Button, YStack, XStack, ScrollView, Separator } from 'tamagui';
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, useLocalSearchParams, router } from 'expo-router';
-import { Alert, Image, Pressable } from 'react-native';
+import {  Image, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useGetItem } from '~/apis/items/getItem';
 import { Container } from '~/tamagui.config';
 import { useCartStore } from '~/store/useCartStore';
 import { useFavouriteStore } from '~/store/useFavouritesStore';
-import { PhoneDetails } from '~/types/phone';
+import { Product } from '~/types/phone';
+import { CartItem } from '~/types/CartTypes';
+
 
 const ProductDetail = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data: item, isLoading, error } = useGetItem(id ?? '');
-  console.log(item);
+
 
   const [isFav, setIsFav] = useState(false);
 
@@ -41,25 +43,18 @@ const ProductDetail = () => {
     );
   }
 
-  const handleAddCart = (item: PhoneDetails) => {
-    useCartStore.getState().addItem({
-      id: item._id.toString(),
-      image: item.image,
-      quantity: 1,
-      name: item.name,
-      price: item.price,
-      brand: item.brand,
-    });
+  const handleAddCart = (item: Product) => {
+    useCartStore.getState().addItem(item );
     router.push('/(tabs)/cart');
   };
 
-  const specs = item.specs; // safer ref
+  const specs = item.data.specs; // safer ref
 
   return (
     <>
       <Stack.Screen
         options={{
-          title: item.name,
+          title: item.data.name,
           headerRight: () => (
             <Pressable
               onPress={() => {
@@ -81,19 +76,19 @@ const ProductDetail = () => {
         <ScrollView bg="white" f={1} p="$2">
           <YStack gap="$4">
             <Image
-              source={{ uri: item.image }}
+              source={{ uri: item.data.image }}
               style={{ width: '100%', height: 400, borderRadius: 16 }}
               resizeMode="contain"
             />
             <YStack gap="$1">
-              <Text fontSize="$9" fontWeight="800">{item.name}</Text>
-              <Text fontSize="$5" color="$gray10">{item.brand}</Text>
+              <Text fontSize="$9" fontWeight="800">{item.data.name}</Text>
+              <Text fontSize="$5" color="$gray10">{item.data.brand}</Text>
             </YStack>
 
             <XStack ai="center" jc="space-between">
               <Container flexDirection="row">
-                <Text fontSize="$8">⭐ {item.averageRatings}</Text>
-                <Text color="$gray10" fontSize="$5" mt="$4">({item.ratingQuantity})</Text>
+                <Text fontSize="$8">⭐ {item.data.averageRatings}</Text>
+                <Text color="$gray10" fontSize="$5" mt="$4">({item.data.ratingQuantity})</Text>
               </Container>
 
               <Button
@@ -148,7 +143,7 @@ const ProductDetail = () => {
         >
           <YStack>
             <Text fontSize="$5" color="$gray10">Price</Text>
-            <Text fontSize="$8" color="#C67C4E">$ {item.price}</Text>
+            <Text fontSize="$8" color="#C67C4E">$ {item.data.price}</Text>
           </YStack>
 
           <Button
@@ -159,7 +154,7 @@ const ProductDetail = () => {
             onPress={() => router.push({
               pathname: "/checktout/checkoutItem",
               params: {
-                id: item._id,
+                id: item.data._id,
                 quantity: "1",
               },
             })}

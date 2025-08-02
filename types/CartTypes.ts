@@ -1,6 +1,7 @@
-import { Item } from "~/types/Item";
+import { Product } from "./phone";
 
-type CartItem = Item & {
+export type CartItem = Product & {
+  
   quantity: number;
   selected?: boolean;
 };
@@ -8,7 +9,7 @@ type CartItem = Item & {
 
 export type CartState={
     items: CartItem[]
-    addItem: (item: Item) => void;
+    addItem: (item: CartItem) => void;
     removeItem: (itemId: string) => void;
     clearCart: () => void;
     getTotalPrice: () => number;

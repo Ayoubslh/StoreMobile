@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { PhoneDetails } from "~/types/phone";
+import { Product } from "~/types/phone";
 
 export type FiltersType = {
   brand?: string;
@@ -45,8 +45,8 @@ const fetchAllItems = async (filters: FiltersType) => {
 };
 
 export const useGetAllItems = (filters: FiltersType) => {
-  return useQuery<PhoneDetails[], Error>({
-    queryKey: ["items", filters], 
+  return useQuery<Product[], Error>({
+    queryKey: ["items", filters],
     queryFn: () => fetchAllItems(filters),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,

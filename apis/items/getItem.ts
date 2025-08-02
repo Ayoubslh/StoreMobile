@@ -1,5 +1,5 @@
     import { useQuery } from "@tanstack/react-query";
-    import { PhoneDetails } from "~/types/phone";
+    import { Product } from "~/types/phone";
 
 
     const fetchItem = async (id:string) => {
@@ -9,11 +9,11 @@
     }
     
     const json = await response.json();
-    return json.data as PhoneDetails;
+    return json.data as Product;
     };
-
+    
     export const useGetItem = (id:string) => {
-    return useQuery<PhoneDetails, Error>({
+    return useQuery<Product, Error>({
         queryKey: ["items",id],
         queryFn:()=> fetchItem(id),
         staleTime: 1000 * 60 * 5, 
