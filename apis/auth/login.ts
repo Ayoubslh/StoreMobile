@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { UserType } from '~/types/UserType';
 import { useToast } from '~/hooks/useToaste';
-import { use } from 'react';
 import { router } from 'expo-router';
 
 

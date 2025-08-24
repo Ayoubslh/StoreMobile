@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { router } from '~/.expo/types/router';
+import { router } from 'expo-router';
 import { UserType } from '~/types/UserType';
 import { useToast } from '~/hooks/useToaste';
 
