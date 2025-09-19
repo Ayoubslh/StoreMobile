@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Product } from "~/types/phone";
+import { PhoneDetails} from "~/types/phone";
 
 export type FiltersType = {
   brand?: string;
@@ -32,7 +32,7 @@ const fetchAllItems = async (filters: FiltersType) => {
 
 
 
-  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/items?${params.toString()}`, {
+  const response = await fetch(`https://hptec.onrender.com/api/v1/items?${params.toString()}`, {
     method: "GET",
   });
 
@@ -41,11 +41,12 @@ const fetchAllItems = async (filters: FiltersType) => {
   }
 
   const json = await response.json();
-  return json.data.items;
+  
+  return json.data.items as PhoneDetails[];
 };
 
 export const useGetAllItems = (filters: FiltersType) => {
-  return useQuery<Product[], Error>({
+  return useQuery<PhoneDetails[], Error>({
     queryKey: ["items", filters],
     queryFn: () => fetchAllItems(filters),
     staleTime: 1000 * 60 * 5,

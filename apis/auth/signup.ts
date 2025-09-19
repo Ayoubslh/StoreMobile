@@ -13,7 +13,7 @@ type SignupInput ={
 
 
 const Signup=async (signupdata: SignupInput) => {
-    const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/signup`, {
+    const res = await fetch(`https://hptec.onrender.com/api/v1/users/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(signupdata),

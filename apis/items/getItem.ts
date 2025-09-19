@@ -1,19 +1,20 @@
     import { useQuery } from "@tanstack/react-query";
-    import { Product } from "~/types/phone";
+    import { PhoneDetails } from "~/types/phone";
 
 
     const fetchItem = async (id:string) => {
-    const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/items/${id}`);
+    const response = await fetch(`https://hptec.onrender.com/api/v1/items/${id}`);
     if (!response.ok) {
         throw new Error("Failed to fetch items");
     }
     
     const json = await response.json();
-    return json.data as Product;
+    console.log("Fetched item:", json.data);
+    return json.data as PhoneDetails;
     };
     
     export const useGetItem = (id:string) => {
-    return useQuery<Product, Error>({
+    return useQuery<PhoneDetails, Error>({
         queryKey: ["items",id],
         queryFn:()=> fetchItem(id),
         staleTime: 1000 * 60 * 5, 

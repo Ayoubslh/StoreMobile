@@ -11,7 +11,7 @@ type LoginInput = {
 
 
 const Login=async ({ email, password }: LoginInput) => {
-    const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/login`, {
+    const res = await fetch(`https://hptec.onrender.com/api/v1/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
